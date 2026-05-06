@@ -1,15 +1,8 @@
 # InfraPilot Project
 
-## Descrição
+## Description
+
 Crie uma arquitetura Kubernetes production-ready com: VPC "eks_vpc" (10.0.0.0/16) com DNS support e DNS hostnames habilitados conectada a um InternetGateway; PublicSubnet "public_subnet_az1" (10.0.1.0/24) em us-east-1a e PublicSubnet "public_subnet_az2" (10.0.2.0/24) em us-east-1b para o ALB Ingress e o NATGateway; NATGateway "nat_gw" em public_subnet_az1 provendo saída à internet para os nós privados; PrivateSubnet "private_subnet_az1" (10.0.3.0/24) em us-east-1a e PrivateSubnet "private_subnet_az2" (10.0.4.0/24) em us-east-1b onde os worker nodes do EKS serão provisionados; EKS "eks_cluster" (cluster_version 1.29, compute_type node_group, instance_type t3.medium, desired_size 2, min_size 2, max_size 5) nas private subnets, com IAM roles para o control plane e os worker nodes; LoadBalancer "alb_ingress" nas public subnets como ALB Ingress Controller expondo os serviços Kubernetes à internet; SecurityGroup "SG_ALB" com regras de entrada nas portas 80 (HTTP) e 443 (HTTPS) de 0.0.0.0/0 conectado ao ALB; SecurityGroup "SG_EKS_Nodes" com regra de entrada na porta 443 a partir do SG_ALB e regra de entrada all-traffic entre os próprios nós, conectado ao EKS; Route53 "dns_zone" como hosted zone para o domínio da aplicação apontando para o ALB via alias record; S3 "eks_artifacts" com versioning e criptografia habilitados para Helm charts, manifests e artefatos de deployment; CloudWatch "eks_monitoring" com Container Insights habilitado para logs e métricas do cluster e dos pods. Conecte: InternetGateway à VPC; NATGateway ao InternetGateway; alb_ingress ao eks_cluster; eks_cluster ao nat_gw e ao eks_artifacts; Route53 ao alb_ingress; eks_cluster ao eks_monitoring.
-
-## Custo Estimado
-134.35/mês
-
-## Como usar
-1. `terraform init`
-2. `terraform workspace new dev`
-3. `terraform plan -var-file="dev.tfvars"`
 
 ## Architecture
 
